@@ -163,7 +163,7 @@ class ContentCardInbox extends React.Component {
 }
 /////////////////////////////////////////////////////////////
 /*
-The React component tomplatese, below, are where we define 
+The React component templates, below, are where we define 
 the structure of how each type of Content Card should look.
 
 These are each functional (stateless) components because they
