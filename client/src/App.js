@@ -81,10 +81,10 @@ class ContentCardInbox extends React.Component {
                           title={ cardsArray[i].title } 
                           description={ cardsArray[i].description } />)
           break;
-        case 'ab-captioned-card':
+        case 'ab-captioned-image':
           elements.push(<CaptionedImgContentCard
                           key={ i} 
-                          img={ cardsArray[i].img }
+                          img={ cardsArray[i].imageUrl }
                           title={ cardsArray[i].title } 
                           description={ cardsArray[i].description } />)
           break;
@@ -142,7 +142,7 @@ function CaptionedImgContentCard(props) {
 /////////////////////////////////////////////////////////////
 function App() {
 
-  braze.initialize(process.env.API_KEY, {
+  braze.initialize('55941d70-70fe-4acb-bc5f-b389fc9f5570', {
     baseUrl: 'sondheim.braze.com',
     enableLogging: true
   });
