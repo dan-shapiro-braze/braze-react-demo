@@ -4,29 +4,49 @@ import './App.css';
 
 require('dotenv').config()
 
-const external_id = 'dshaps10';
+class InboxHeader extends React.Component {
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      externalId: ''
+    }
 
-function InboxHeader() {
+    this._handleInputChange = this._handleInputChange.bind(this);
+    this._handleSignIn = this._handleSignIn.bind(this);
+  }
+
   // When 'Refresh Feed' button is clicked, this event handler
   // will fire and trigger a Content Card refresh from Braze
-  function _handleFeedRefresh() {
+  _handleFeedRefresh() {
     braze.requestContentCardsRefresh();
 
     alert('Feed refreshed');
   }
 
-  function _handleSignIn() {
-    braze.changeUser(external_id);
+  _handleInputChange(e) {
+    this.setState({ externalId: e.target.value });
   }
 
-  return (
-    <div className="InboxHeader">
-      <h1>Braze React Sandbox</h1>
-      <h2>Learn How Content Cards Work with React</h2>
-      <button onClick={_handleFeedRefresh}>Refresh Feed</button><br /><br />
-      <button onClick={_handleSignIn}>Sign In</button>
-    </div>
-  );
+  _handleSignIn(e) {
+    e.preventDefault();
+    braze.changeUser(this.state.externalId);
+    alert('External ID changed to: ' + this.state.externalId); 
+  }
+
+  render() {
+    return (
+      <div className="InboxHeader">
+        <h1>Braze React Sandbox</h1>
+        <h2>Learn How Content Cards Work with React</h2>
+        <button onClick={ this._handleFeedRefresh }>Refresh Feed</button>
+        <form onSubmit={ this._handleSignIn }>
+          <input type="text" placeholder="External ID" onChange={ this._handleInputChange }></input>
+          <input type="submit" />
+        </form>
+      </div>
+    );
+  }
 }
 
 /////////////////////////////////////////////////////////////
