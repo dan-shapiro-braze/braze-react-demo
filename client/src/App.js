@@ -4,6 +4,24 @@ import './App.css';
 
 require('dotenv').config()
 
+/////////////////////////////////////////////////////////////
+/* 
+NAME:
+Inbox Header Component
+
+PURPOSE: 
+This component will live in the top part of the page, right
+above the ContentCardsInbox component. This is where you can
+refresh the feed and change External ID
+
+CHANGING USERS:
+This is one of 2 React components - in addition to the
+ContentCardInbox component - that is required the maintain
+state. In this case, we need to store the External ID in
+a state field called 'externalId' where it can be accessed by
+the changeUser() method
+*/
+/////////////////////////////////////////////////////////////
 class InboxHeader extends React.Component {
   
   constructor(props) {
@@ -24,10 +42,14 @@ class InboxHeader extends React.Component {
     alert('Feed refreshed');
   }
 
+  // Will update component state with External ID typed into
+  // the form where it can be accessed by changeUser()
   _handleInputChange(e) {
     this.setState({ externalId: e.target.value });
   }
 
+  // Will read the External ID stored in the component's state
+  // and pass it to changeUser(), signing the user in
   _handleSignIn(e) {
     e.preventDefault();
     braze.changeUser(this.state.externalId);
@@ -57,7 +79,7 @@ Container Component for Content Cards Inbox
 PURPOSE: 
 This is the container where individual Content Card
 components are rendered (depending on number of Content Cards
-a user is eligi)
+a user is eligigible)
 
 SUBSCRIBING TO CONTENT CARD UPDATES:
 It's in this React component that we're actually subscribing
@@ -66,10 +88,25 @@ rendered. It makes sense to do so at this Component's scope
 as it is a parent component to all individual instances of
 the Content Card component and, thus, is responsible for 
 passing individual field values ('title', 'description', etc)
-into each Content Card as it's rendered. You'll notice that 
-this is the only stateful component - all others are stateless
-or 'functional' components - because we require this
-component to store the entire Content Card cache.
+into each Content Card as it's rendered.
+
+A NOTE ON COMPONENTDIDMOUNT():
+This is a React Lifecycle method that will execute all code
+within it once this React component is mounted onto the DOM.
+We are wrapping the Content Card subscriber method in
+componentDidMount() because we want to ensure the state is
+first set - since the constructor method always executes
+first in a React class - before we try to modify it by
+storing the Content Cards cache there
+
+LOOPING THROUGH THE CACHE AND RENDERING CARDS:
+within the render() method we're looping through the locally
+stored copy of the Content Cards cache, choosing which
+template to use for a given card, based on it's type, and 
+passing individual field values down to each instance of
+the component (e.g. title={ cardsArray[i].title }). Within
+each individual Content Card we can access field values
+through that cards 'props' object
 */
 /////////////////////////////////////////////////////////////
 class ContentCardInbox extends React.Component {
@@ -80,7 +117,7 @@ class ContentCardInbox extends React.Component {
       cards: []
     }
 
-    braze.display.showContentCards();
+    braze.display.toggleContentCards();
   }
   
   componentDidMount() {
@@ -118,12 +155,24 @@ class ContentCardInbox extends React.Component {
     }
 
     return (
-      <div className="ContentCardInbox">
+      <div id="ContentCardInbox">
         { elements }
       </div>
     );
   }
 }
+/////////////////////////////////////////////////////////////
+/*
+The React component tomplatese, below, are where we define 
+the structure of how each type of Content Card should look.
+
+These are each functional (stateless) components because they
+don't need to maintain their own state, only inherit values
+from the parent - ContentCardInbox - component. These
+inherited values (title, description, img, etc) are stored
+within each component's 'props' object.
+*/
+/////////////////////////////////////////////////////////////
 
 /* Template Component for Classic Content Card */
 /////////////////////////////////////////////////////////////
