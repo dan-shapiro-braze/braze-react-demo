@@ -1,9 +1,18 @@
 import React from 'react';
 import braze from '@braze/web-sdk';
 import './App.css';
-import logo from './logo.svg';
 
-require('dotenv').config()
+
+function LoadingIcon() {
+  
+  return (
+    <div className="LoadingIcon">
+      <img src="https://seeklogo.com/images/B/braze-logo-29259E72BA-seeklogo.com.png" alt-text="Loading..." class="App-logo" />
+      <h2>Fetching and Displaying Content Card Feed</h2>
+    </div>
+  );
+
+}
 
 /////////////////////////////////////////////////////////////
 /* 
@@ -66,7 +75,7 @@ class InboxHeader extends React.Component {
         <form onSubmit={ this._handleSignIn }>
           <input type="text" placeholder="External ID" onChange={ this._handleInputChange }></input>
           <input type="submit" />
-        </form>
+        </form><br /> <br />
       </div>
     );
   }
@@ -161,7 +170,7 @@ class ContentCardInbox extends React.Component {
     }
 
     if (!cardsArray) {
-      return <img src={ logo } alt-text="Loading..." class="App-logo" />;
+      return <LoadingIcon />;
     } else {
       return elements;
     }
