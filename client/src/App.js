@@ -114,51 +114,67 @@ class ContentCardInbox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: []
+      cards: null
     }
 
-    braze.display.toggleContentCards();
+    // braze.display.toggleContentCards('ContentCardInbox');
   }
   
   componentDidMount() {
+    braze.requestContentCardsRefresh();
+
     braze.subscribeToContentCardsUpdates((updates) => {
       this.setState({ cards: updates.cards });
+      alert(JSON.stringify(updates.cards));
     });
   }
 
   render() {
-    let cardsArray = this.state.cards;
+
+    // const { cards } = this.state.cards;
+    const cards  = this.state.cards;
+    console.log(cards);
     let elements = [];
 
-    for (let i = 0; i < cardsArray.length; i++) {
-      switch(cardsArray[i].zc) {
-        case 'ab-classic-card':
-          elements.push(<ClassicContentCard 
-                          key={ i }
-                          title={ cardsArray[i].title } 
-                          description={ cardsArray[i].description } />)
-          break;
-        case 'ab-captioned-image':
-          elements.push(<CaptionedImgContentCard
-                          key={ i} 
-                          img={ cardsArray[i].imageUrl }
-                          title={ cardsArray[i].title } 
-                          description={ cardsArray[i].description } />)
-          break;
-        case 'ab-banner-card':
-          elements.push(<BannerContentCard 
-                          key={ i }
-                          img={ cardsArray[i].img } />)
-          break;
-      }
-      console.log(cardsArray[i]);
+    // for (let i = 0; i < cardsArray.length; i++) {
+    //   switch(cardsArray[i].zc) {
+    //     case 'ab-classic-card':
+    //       elements.push(<ClassicContentCard 
+    //                       key={ i }
+    //                       title={ cardsArray[i].title } 
+    //                       description={ cardsArray[i].description } />)
+    //       break;
+    //     case 'ab-captioned-image':
+    //       elements.push(<CaptionedImgContentCard
+    //                       key={ i} 
+    //                       img={ cardsArray[i].imageUrl }
+    //                       title={ cardsArray[i].title } 
+    //                       description={ cardsArray[i].description } />)
+    //       break;
+    //     case 'ab-banner-card':
+    //       elements.push(<BannerContentCard 
+    //                       key={ i }
+    //                       img={ cardsArray[i].img } />)
+    //       break;
+    //   }
+    //   console.log(cardsArray[i]);
+    // }
+
+    // return (
+    //   <div id="ContentCardInbox">
+    //     { elements }
+    //   </div>
+    // );
+
+    if (cards) {
+      return <p>Cards loaded</p>
+    } else {
+      return <p>Loading Cards...</p>
     }
 
-    return (
-      <div id="ContentCardInbox">
-        { elements }
-      </div>
-    );
+    return cards ? console.log(cards) : (
+      <p>Loading Cards...</p>
+    )
   }
 }
 /////////////////////////////////////////////////////////////
