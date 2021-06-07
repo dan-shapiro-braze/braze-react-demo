@@ -114,7 +114,8 @@ class ContentCardInbox extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      cards: null
+      cards: null,
+      loading: true
     }
 
     // braze.display.toggleContentCards('ContentCardInbox');
@@ -128,53 +129,43 @@ class ContentCardInbox extends React.Component {
       alert(JSON.stringify(updates.cards));
     });
   }
-
+  
   render() {
-
-    // const { cards } = this.state.cards;
-    const cards  = this.state.cards;
-    console.log(cards);
     let elements = [];
+    const cardsArray = this.state.cards;
 
-    // for (let i = 0; i < cardsArray.length; i++) {
-    //   switch(cardsArray[i].zc) {
-    //     case 'ab-classic-card':
-    //       elements.push(<ClassicContentCard 
-    //                       key={ i }
-    //                       title={ cardsArray[i].title } 
-    //                       description={ cardsArray[i].description } />)
-    //       break;
-    //     case 'ab-captioned-image':
-    //       elements.push(<CaptionedImgContentCard
-    //                       key={ i} 
-    //                       img={ cardsArray[i].imageUrl }
-    //                       title={ cardsArray[i].title } 
-    //                       description={ cardsArray[i].description } />)
-    //       break;
-    //     case 'ab-banner-card':
-    //       elements.push(<BannerContentCard 
-    //                       key={ i }
-    //                       img={ cardsArray[i].img } />)
-    //       break;
-    //   }
-    //   console.log(cardsArray[i]);
-    // }
-
-    // return (
-    //   <div id="ContentCardInbox">
-    //     { elements }
-    //   </div>
-    // );
-
-    if (cards) {
-      return <p>Cards loaded</p>
-    } else {
-      return <p>Loading Cards...</p>
+    if (cardsArray) {
+      for (let i = 0; i < cardsArray.length; i++) {
+        switch(cardsArray[i].zc) {
+          case 'ab-classic-card':
+            elements.push(<ClassicContentCard 
+                            key={ i }
+                            title={ cardsArray[i].title } 
+                            description={ cardsArray[i].description } />)
+            break;
+          case 'ab-captioned-image':
+            elements.push(<CaptionedImgContentCard
+                            key={ i} 
+                            img={ cardsArray[i].imageUrl }
+                            title={ cardsArray[i].title } 
+                            description={ cardsArray[i].description } />)
+            break;
+          case 'ab-banner-card':
+            elements.push(<BannerContentCard 
+                            key={ i }
+                            img={ cardsArray[i].img } />)
+            break;
+        }
+        console.log(cardsArray[i]);
+      }
+      return elements;
     }
 
-    return cards ? console.log(cards) : (
-      <p>Loading Cards...</p>
-    )
+    if (!cardsArray) {
+      return <p>Loading Cards...</p>
+    } else {
+      return <p>Cards Loaded</p>
+    }
   }
 }
 /////////////////////////////////////////////////////////////
