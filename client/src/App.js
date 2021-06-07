@@ -1,6 +1,7 @@
 import React from 'react';
 import braze from '@braze/web-sdk';
 import './App.css';
+import logo from './logo.svg';
 
 require('dotenv').config()
 
@@ -160,7 +161,7 @@ class ContentCardInbox extends React.Component {
     }
 
     if (!cardsArray) {
-      return <p>Loading Cards...</p>
+      return <img src={ logo } alt-text="Loading..." class="App-logo" />;
     } else {
       return elements;
     }
