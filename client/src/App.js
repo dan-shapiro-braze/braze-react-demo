@@ -157,13 +157,12 @@ class ContentCardInbox extends React.Component {
         }
         console.log(cardsArray[i]);
       }
-      return elements;
     }
 
     if (!cardsArray) {
       return <p>Loading Cards...</p>
     } else {
-      return <p>Cards Loaded</p>
+      return elements;
     }
   }
 }
