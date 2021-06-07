@@ -61,7 +61,7 @@ class InboxHeader extends React.Component {
       <div className="InboxHeader">
         <h1>Braze React Sandbox</h1>
         <h2>Learn How Content Cards Work with React</h2>
-        <button onClick={ this._handleFeedRefresh }>Refresh Feed</button>
+        <button onClick={ this._handleFeedRefresh }>Refresh Feed</button><br /><br />
         <form onSubmit={ this._handleSignIn }>
           <input type="text" placeholder="External ID" onChange={ this._handleInputChange }></input>
           <input type="submit" />
@@ -126,7 +126,6 @@ class ContentCardInbox extends React.Component {
 
     braze.subscribeToContentCardsUpdates((updates) => {
       this.setState({ cards: updates.cards });
-      alert(JSON.stringify(updates.cards));
     });
   }
   
