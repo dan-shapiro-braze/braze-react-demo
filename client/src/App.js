@@ -154,7 +154,7 @@ class ContentCardInbox extends React.Component {
             break;
           case 'ab-captioned-image':
             elements.push(<CaptionedImgContentCard
-                            key={ i} 
+                            key={ i } 
                             img={ cardsArray[i].imageUrl }
                             title={ cardsArray[i].title } 
                             description={ cardsArray[i].description } />)
@@ -172,6 +172,7 @@ class ContentCardInbox extends React.Component {
     if (!cardsArray) {
       return <LoadingIcon />;
     } else {
+      braze.logCardImpressions(cardsArray, true);
       return elements;
     }
   }
@@ -213,6 +214,10 @@ function BannerContentCard(props) {
 /* Template Component for Captioned Image Content Card */
 /////////////////////////////////////////////////////////////
 function CaptionedImgContentCard(props) {
+  function handleContentCardClick() {
+    
+  }
+
   return (
     <div className="CardBody" id="CaptionedCard">
       <img src={ props.img }></img>
