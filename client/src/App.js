@@ -149,12 +149,14 @@ class ContentCardInbox extends React.Component {
           case 'ab-classic-card':
             elements.push(<ClassicContentCard 
                             key={ i }
+                            rawCardObj={ cardsArray[i] }
                             title={ cardsArray[i].title } 
                             description={ cardsArray[i].description } />)
             break;
           case 'ab-captioned-image':
             elements.push(<CaptionedImgContentCard
                             key={ i } 
+                            rawCardObj={ cardsArray[i] }
                             img={ cardsArray[i].imageUrl }
                             title={ cardsArray[i].title } 
                             description={ cardsArray[i].description } />)
@@ -162,6 +164,7 @@ class ContentCardInbox extends React.Component {
           case 'ab-banner-card':
             elements.push(<BannerContentCard 
                             key={ i }
+                            rawCardObj={ cardsArray[i] }
                             img={ cardsArray[i].img } />)
             break;
         }
@@ -193,10 +196,15 @@ within each component's 'props' object.
 /* Template Component for Classic Content Card */
 /////////////////////////////////////////////////////////////
 function ClassicContentCard(props) {
+  function handleContentCardClick() {
+    braze.logCardClick(props.rawCardObj, true);
+  }
+
   return (
     <div className="CardBody" id="ClassicCard">
       <h1>{ props.title }</h1>
       <h2>{ props.description }</h2>
+      <button onClick={ handleContentCardClick }>Click Me</button><br /> <br />
     </div>
   );
 }
@@ -204,9 +212,14 @@ function ClassicContentCard(props) {
 /* Template Component for Banner Content Card */
 /////////////////////////////////////////////////////////////
 function BannerContentCard(props) {
+  function handleContentCardClick() {
+    braze.logCardClick(props.rawCardObj, true);
+  }
+
   return (
     <div className="CardBody" id="BannerCard">
       <img src={ props.img }></img>
+      <button onClick={ handleContentCardClick }>Click Me</button><br /><br />
     </div>
   );
 }
@@ -215,7 +228,7 @@ function BannerContentCard(props) {
 /////////////////////////////////////////////////////////////
 function CaptionedImgContentCard(props) {
   function handleContentCardClick() {
-    
+    braze.logCardClick(props.rawCardObj, true);
   }
 
   return (
@@ -223,6 +236,7 @@ function CaptionedImgContentCard(props) {
       <img src={ props.img }></img>
       <h1>{ props.title }</h1>
       <p>{ props.description }</p>
+      <button onClick={ handleContentCardClick }>Click Me</button><br /><br />
     </div>
   );
 }
