@@ -29,9 +29,10 @@
 }
 
 .CardBody {
-  border: 2px solid black;
-  border-radius: 2px;
+  border: 1px solid black;
+  border-radius: 5px;
   margin: 20px;
+  box-shadow: 10px 5px 5px rgb(123, 123, 123);
 }
 
 #ContentCardInbox {
